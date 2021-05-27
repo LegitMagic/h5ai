@@ -163,7 +163,7 @@
     */
     "foldersize": {
         "enabled": true,
-        "type": "php"
+        "type": "shell-du"
     },
 
     /*

@@ -35,9 +35,16 @@ class Filesize {
     }
 
     private function php_filesize($path, $recursive = false) {
-        // if (PHP_INT_SIZE < 8) {
-        // }
-        $size = @filesize($path);
+        if (PHP_INT_SIZE < 8 && function_exists('shell_exec')) {
+            if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+                $size = floatval(trim(exec("for %F in (\"" . $path . "\") do @echo %~zF")));
+            }
+            else {
+                $size = floatval(trim(shell_exec("stat -c%s " . escapeshellarg($path))));
+            }
+        } else {
+            $size = @filesize($path);
+        }
 
         if (!is_dir($path) || !$recursive) {
             return $size;
@@ -65,7 +72,7 @@ class Filesize {
         $sizes = [];
         foreach ($lines as $line) {
             $parts = preg_split('/[\s]+/', $line, 2);
-            $size = intval($parts[0], 10);
+            $size = floatval($parts[0]);
             $path = $parts[1];
             $sizes[$path] = $size;
         }
