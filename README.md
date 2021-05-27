@@ -1,3 +1,6 @@
+# This fork includes workarounds for folders/files larger than 2GB on 32-bit systems
+## Because Raspberry Pi OS uses a 32-bit userland even on 64-bit compatible Raspberry Pis
+
 # h5ai
 
 [![license][license-img]][github] [![web][web-img]][web] [![github][github-img]][github]
